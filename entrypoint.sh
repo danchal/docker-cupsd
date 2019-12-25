@@ -1,9 +1,7 @@
 #!/bin/sh
-set -e
-set -x
 
 if [ "$(grep -ci "${CUPS_USER_ADMIN}" /etc/shadow)" -eq 0 ]; then
-    adduser -S -G lpadmin --no-create-home "${CUPS_USER_ADMIN}"
+    adduser --system --no-create-home --ingroup lpadmin --disabled-login "${CUPS_USER_ADMIN}"
 fi
 
 echo "${CUPS_USER_ADMIN}:${CUPS_USER_PASSWORD}" | chpasswd
@@ -20,8 +18,11 @@ EOF
 
 touch /config/cupsd.conf
 
-### Start AVAHI instance ###
-exec /usr/sbin/avahi-daemon -D
+echo "### Start DBUS service ###"
+/etc/init.d/dbus start
 
-### Start CUPS instance ###
+echo "### Start AVAHI daemon ###"
+/etc/init.d/avahi-daemon start
+
+echo "### Start CUPS service ###"
 exec /usr/sbin/cupsd -f -c /config/cupsd.conf

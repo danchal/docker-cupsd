@@ -1,19 +1,21 @@
-FROM alpine:edge
+FROM ubuntu:latest
 
 ENV CUPS_USER_ADMIN=admin
 ENV CUPS_USER_PASSWORD=password
+ENV TERM=xterm
 
-RUN apk update --no-cache; \
-    apk add --no-cache cups cups-filters ghostscript avahi; \
-    \
-    # clean up
-    rm -rf /var/cache/apk/* /tmp/*
+RUN apt-get update;
+RUN apt-get install --no-install-recommends --yes \
+	cups \
+	avahi-daemon \
+    libnss-mdns;
+RUN rm -rf /var/lib/apt/lists/*;
 
 COPY entrypoint.sh /
 RUN  chmod +x /entrypoint.sh;
 
 EXPOSE 631
 EXPOSE 5353
-VOLUME ["/Config"]
+VOLUME ["/config"]
 
 ENTRYPOINT ["/entrypoint.sh"]
