@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM lsiobase/ubuntu:bionic
 
 ENV CUPS_USER_ADMIN=admin
 ENV CUPS_USER_PASSWORD=password
