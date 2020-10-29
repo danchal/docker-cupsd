@@ -19,3 +19,6 @@ EXPOSE 5353
 VOLUME ["/config"]
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+# set build date
+RUN date >/build-date.txt

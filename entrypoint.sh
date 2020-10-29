@@ -10,9 +10,10 @@ cat <<EOF
 ===========================================================
 The dockerized CUPS instance is now ready for use! The web
 interface is available here:
-URL:       https://<docker host>:631/
-Username:  ${CUPS_USER_ADMIN}
-Password:  ${CUPS_USER_PASSWORD}
+URL:        https://<docker host>:631/
+Username:   ${CUPS_USER_ADMIN}
+Password:   ${CUPS_USER_PASSWORD}
+Build date: $(cat /build-date.txt)
 ===========================================================
 EOF
 
